@@ -31,5 +31,5 @@ export const nav = [
 
 /** Link to a file in the public repo. */
 export function sourceUrl(path: string): string | null {
-  return `${site.repo}/blob/main/${path}`;
+  return `${site.repo}/blob/master/${path}`;
 }

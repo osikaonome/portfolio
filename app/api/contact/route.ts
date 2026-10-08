@@ -61,6 +61,9 @@ export async function POST(request: Request) {
     }),
   });
 
-  if (!res.ok) return reply(false, 502, `Sorry, that didn't send. Please email ${site.email}.`);
+  if (!res.ok) {
+    console.error("[contact] Resend rejected the message:", res.status, await res.text());
+    return reply(false, 502, `Sorry, that didn't send. Please email ${site.email}.`);
+  }
   return reply(true, 200);
 }
