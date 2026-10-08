@@ -8,8 +8,13 @@ export const site = {
     "Senior frontend engineer with 5+ years building scalable web applications in React, Next.js and TypeScript. Also a creative designer.",
   // Home hero headline (positioning statement A from the content brief).
   positioning: "Senior frontend engineer building healthcare, community and AI products, with a designer’s eye.",
-  // Set NEXT_PUBLIC_SITE_URL in Vercel once the domain is chosen (required for production builds).
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  // NEXT_PUBLIC_SITE_URL overrides. On Vercel it otherwise falls back to the project's production
+  // domain (the custom domain once one is added, else the .vercel.app one).
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000"),
   // Public contact. Never publish the phone number.
   email: "meetonomeosika@gmail.com",
   // Used by inspect mode to link annotations to their source files.
