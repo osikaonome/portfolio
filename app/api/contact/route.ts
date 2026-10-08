@@ -19,8 +19,8 @@ function limited(ip: string) {
  * Accepts JSON (the enhanced form) or form posts (no JavaScript), where it
  * redirects to a confirmation page instead of returning JSON.
  *
- * Env: RESEND_API_KEY (required), CONTACT_FROM (a sender on a verified
- * Resend domain; defaults to Resend's test sender).
+ * Env: RESEND_API_KEY (required), CONTACT_FROM (optional sender override;
+ * defaults to contact@onomeosika.dev, verified in Resend).
  */
 export async function POST(request: Request) {
   const isForm = !request.headers.get("content-type")?.includes("application/json");
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: process.env.CONTACT_FROM ?? "Portfolio <onboarding@resend.dev>",
+      from: process.env.CONTACT_FROM ?? "Onome Osika Portfolio <contact@onomeosika.dev>",
       to: [site.email],
       reply_to: email,
       subject: `Portfolio message from ${name}`,
