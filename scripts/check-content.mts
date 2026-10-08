@@ -149,9 +149,6 @@ for (const p of projects) {
 // Site config and CV
 for (const path of findTodos(site).filter((p) => !p.startsWith("positioningOptions"))) todo("lib/site.ts", path);
 for (const path of findTodos(cv)) todo("lib/cv.ts", path);
-if (process.env.VERCEL_ENV === "production" && !process.env.NEXT_PUBLIC_SITE_URL && !process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-  fail("env", "NEXT_PUBLIC_SITE_URL must be set to the production domain");
-}
 
 if (todos.length) {
   const list = todos.map((t) => `  - ${t}`).join("\n");

@@ -68,7 +68,7 @@ tests/                unit (Vitest) and e2e (Playwright)
 
 | Variable | Needed for |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | Canonical URLs, OG images and sitemap. Optional on Vercel, which falls back to the project's production domain |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URLs, OG images and sitemap. Optional: defaults to https://www.onomeosika.dev on Vercel and localhost elsewhere |
 | `RESEND_API_KEY` | Contact form. Without it the form tells visitors to email instead |
 | `CONTACT_FROM` | Sender address on a domain verified in Resend (defaults to Resend's test sender, which only delivers to your Resend account email) |
 
