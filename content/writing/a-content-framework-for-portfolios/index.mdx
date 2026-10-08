@@ -1,0 +1,24 @@
+---
+title: Projects are data, not pages
+slug: a-content-framework-for-portfolios
+summary: How this site turns a folder of MDX into routes, cards, filters, OG images and search, and fails the build when content is wrong.
+date: 2025-09-15
+tags: ["Next.js", "MDX", "Architecture"]
+---
+
+<Section title="The rule">
+  Adding a project means adding one folder. No new components, no routing changes.
+</Section>
+
+<Section title="Validation">
+  Frontmatter is parsed with Zod. A missing alt text, a low-contrast accent or a broken internal link fails the build, so mistakes never reach production.
+
+  ```ts
+  const parsed = projectSchema.safeParse(frontmatter);
+  if (!parsed.success) throw new Error(formatIssues(parsed.error));
+  ```
+</Section>
+
+<Section title="What gets generated">
+  Each project produces a static route, a card on [the work index](/work), an Open Graph image, metadata, JSON-LD, a sitemap entry and a search entry.
+</Section>

@@ -1,0 +1,46 @@
+---
+title: Jemine AI
+slug: jemine-ai
+summary: One healthcare engagement platform with pharmacy, lab and hospital portals that automates refills, results, reminders and loyalty.
+year: 2026
+role: ["Frontend engineer"]
+discipline: engineering
+tags: ["Next.js", "TypeScript", "Healthcare", "SaaS", "Automation"]
+cover:
+  src: cover.jpg
+  alt: Jemine AI on a tablet and a phone. The tablet shows a messaging dashboard with sent, delivered and delivery-rate figures and an AI companion usage chart; the phone shows a patient risk assessment, an AI care companion summary and a voice recording.
+featured: true
+order: 1
+status: live
+links:
+  live: https://jemineai.com
+stack: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "NextAuth", "BullMQ", "Twilio"]
+challenge: Keep patients on track with refills, results and appointments, across three very different kinds of healthcare provider, from one product.
+---
+
+<Section title="Overview">
+  Jemine AI is a multi-tenant SaaS platform for healthcare communications. One product serves three types of provider, each with its own portal:
+
+  - **Pharmacies:** prescription tracking, automated refill reminders, pickup alerts and adherence loyalty points
+  - **Medical labs:** pre-test instructions, results-ready notifications, fewer recollections and screening package promotion
+  - **Hospitals:** appointment reminders, no-show recovery flows, post-visit check-ins and preventive care loyalty
+
+  Patients are reached over WhatsApp and SMS. I worked on the platform as a frontend engineer in a small team, from March to August 2026.
+</Section>
+
+<Section title="What I built">
+  My work sat where the portal meets the automation: the screens staff use every day, and the logic behind the messages patients receive.
+
+  - **Patient records.** New fields on the add-patient flow, and attachments on patient notes, so staff can keep supporting documents with the record.
+  - **Refill-due reminders.** The refill-due flow that decides when a patient's prescription is due and feeds the automated reminder jobs.
+  - **Messaging.** Fixes to email and SMS delivery, and more graceful handling when a send fails.
+  - **Languages.** Added Yoruba as a supported language.
+  - **Account access.** A password reset flow and an updated login page.
+  - **Deployment.** Build and config changes to get the app running on the production host.
+</Section>
+
+<Section title="The stack">
+  The platform is a Next.js app with its API in the same codebase: PostgreSQL through Prisma, NextAuth for authentication, Zod for validation, BullMQ on Redis for scheduled and background jobs (such as reminders), Twilio for SMS and Resend for email.
+
+  Working across the portal UI, the job queue and the messaging services meant every frontend change had to respect what happens after the button is pressed: a reminder that fires on the wrong day is a worse bug than a misaligned layout.
+</Section>

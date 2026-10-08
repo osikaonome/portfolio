@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# content assets synced from /content by scripts/sync-assets.ts
+/public/content
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/

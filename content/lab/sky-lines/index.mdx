@@ -1,0 +1,24 @@
+---
+title: Sky lines
+slug: sky-lines
+summary: The home page hero. Canvas lines over a gradient that follows the time of day in Dublin.
+date: 2025-09-01
+tags: ["Canvas", "Generative", "Performance"]
+cover:
+  src: cover.jpg
+  alt: Dusk gradient from deep purple to orange with thin flowing lines
+---
+
+<Media src="cover.jpg" alt="Dusk gradient from deep purple to orange with thin flowing lines" priority />
+
+## How it works
+
+The palette comes from the current hour in `Europe/Dublin`, so it needs no API key and no network request. The animation is Canvas 2D with no dependencies.
+
+## Mobile and accessibility
+
+- Pixel ratio is capped at 1 and the frame rate at 30fps on small screens.
+- It pauses when offscreen or when the tab is hidden.
+- With reduced motion, data saver or a low-power device, it draws one static frame instead.
+
+See the source in `components/hero/generative-hero.tsx`.

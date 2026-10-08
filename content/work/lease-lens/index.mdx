@@ -1,0 +1,83 @@
+---
+title: Lease Lens
+slug: lease-lens
+summary: An AI tenancy copilot that helps renters in Ireland check rent increases, understand leases and prepare RTB disputes.
+year: 2026
+role: ["Solo designer and engineer"]
+discipline: engineering
+tags: ["Next.js", "TypeScript", "AI", "OpenRouter", "Zustand", "TanStack Query"]
+cover:
+  src: cover.jpg
+  alt: "Three Lease Lens screens in dark mode: uploading a lease for review; a lease score of 29 out of 100 with clauses flagged standard, check or unusual; and a rent review check where the assistant works out the tenancy length from the dates given."
+featured: true
+order: 2
+status: live
+links:
+  live: https://lease-lens-five.vercel.app/
+stack: ["Next.js", "TypeScript", "OpenRouter", "Zustand", "TanStack Query", "Zod", "Vitest", "Playwright"]
+challenge: Use a reasoning model to help renters, without ever letting it be the source of truth for the law.
+---
+
+<Section title="The problem">
+  Renting in Ireland is hard partly because people don't know their rights. The rules on rent increases, notice periods and deposits change often, depend on dates, location and tenancy type, and are spread across the RTB, Citizens Information and legislation.
+
+  The information exists. What's missing is applying it to *my* lease, *my* dates and *my* situation. Lease Lens reads your lease, checks a notice you've received, answers follow-up questions and helps you prepare a response.
+</Section>
+
+<Section title="The LLM reasons, the rules engine decides">
+  <DecisionLog
+    decision="Who produces legal figures, dates and deadlines?"
+    options={["Let the model answer from what it knows", "Compute them in deterministic, tested code and let the model explain the result"]}
+    choice="Deterministic rules engine; the model reaches it only through tools"
+    tradeoff="Every rule has to be researched and verified against official sources before it can be encoded, and re-verified when the law changes. Until a rule exists, the assistant has to say it can't confirm the figure."
+  />
+
+  Rule sets live in `lib/rules`, versioned by `effectiveFrom` / `effectiveTo`, each with its official sources and a `lastVerified` date. When no version covers a date, the app asks for the missing input instead of guessing.
+
+  Each tool is a single Zod schema that is both the JSON Schema the model sees and the runtime validator for its arguments. If the model calls a tool with bad arguments, the validation error goes back to it for one correction.
+</Section>
+
+<Section title="Reasoning that survives follow-ups">
+  Tenancy questions are multi-step, and people push back: "Are you sure? My landlord says…". The model should re-examine its earlier reasoning, not start again from scratch.
+
+  OpenRouter returns `reasoning_details` with each answer. I store it exactly as returned, treat it as opaque, and send it back on the matching turn in every follow-up. Editing or regenerating a turn drops every later turn and its reasoning. A test asserts the follow-up payload contains byte-identical `reasoning_details` after the full round trip.
+
+  ```ts
+  export function toOpenRouterMessage(message: ChatMessage): OpenRouterMessage {
+    if (message.role === "user") {
+      return { role: "user", content: message.content };
+    }
+    return {
+      role: "assistant",
+      content: message.content,
+      ...(message.reasoning_details ? { reasoning_details: message.reasoning_details } : {}),
+    };
+  }
+  ```
+
+  The raw object is never rendered. People see a readable summary in a collapsible "How I worked this out" panel.
+</Section>
+
+<Section title="Lease review and scoring">
+  - **Files are read in the browser.** PDFs are parsed with pdf.js; scanned pages and images are OCR'd with tesseract.js. The file never leaves the device.
+  - **People check the text first.** The extracted text is shown and editable before it's sent, so OCR mistakes can be fixed and you see exactly what's shared.
+  - **The model classifies.** Each clause is labelled standard, check or unusual, as JSON validated with Zod. Invalid output gets one repair attempt.
+  - **Code scores.** The score starts at 100 and loses 12 per unusual clause, 4 per clause to check and 3 per missing detail (at most 15). It's repeatable, explained in the UI and unit-tested. It measures how much needs attention, not legal validity.
+</Section>
+
+<Section title="Privacy and security">
+  - Nothing is persisted: the conversation lives only in client memory.
+  - Emails, Irish phone numbers, Eircodes and IBANs are redacted before text reaches the model.
+  - The OpenRouter key exists only on the server; the browser talks to `/api/chat`.
+  - The model is set by an environment variable, so it can be switched to a provider that doesn't log prompts.
+</Section>
+
+<Section title="Built for a free host">
+  Reasoning models with a tool loop are slow, and the demo runs on Vercel's free tier. The chat route allows up to 300 seconds; the tool loop has a 240-second budget and at most five iterations, and returns a partial answer rather than an error past either limit. Functions run in Dublin, and a per-IP rate limit (10 requests an hour) protects the API credits on a public link.
+</Section>
+
+<Section title="Where it is now">
+  Built: the API proxy, reasoning preservation, the tool loop, redaction, rate limiting, the chat UI, lease and notice upload with OCR, clause review with scoring, CI, and unit and end-to-end tests. Design decisions are recorded as ADRs in the repo.
+
+  Next: the legal rule sets themselves (rent increases, notice periods, deposits), which must be verified against the RTB and Citizens Information before they're encoded; then the guided notice form, letter drafting and streaming.
+</Section>

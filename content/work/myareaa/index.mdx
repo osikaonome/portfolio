@@ -1,0 +1,43 @@
+---
+title: MyAreaa
+slug: myareaa
+summary: A community platform for people with shared interests, with group governance and a shared "village bank" wallet for dues, savings and donations.
+year: 2023
+role: ["Senior Frontend Engineer"]
+discipline: engineering
+tags: ["Next.js", "TypeScript", "Community", "Fintech"]
+cover:
+  src: cover.jpg
+  alt: MyAreaa on desktop and mobile. Browser windows show a community page with a member feed, a navigation sidebar and the Community Wallet panel with Add Money, Transfer and Withdraw actions; a phone shows a member profile and the My Pals list.
+featured: true
+order: 3
+status: live
+links:
+  live: https://www.myareaa.com
+stack: ["Next.js", "TypeScript", "TanStack Query", "Zustand", "Tailwind", "Radix UI"]
+challenge: Make shared money feel trustworthy inside a social product, where a confusing balance or a failed transfer costs more than a bug report.
+---
+
+<Section title="Overview">
+  MyAreaa is a JL13 Concepts product: exclusive communities that can be run democratically or by admins, with a community wallet for transparent group finances. It's built around the Ubuntu idea of collective support.
+
+  I've worked on it since 2023 as a senior frontend engineer: first on the original React web app, where I wrote most of the code, and then on the Next.js rebuild, alongside the product's marketing site.
+</Section>
+
+<Section title="From React to Next.js">
+  The first version was a Create React App single-page app with Material UI. The rebuild moved to Next.js and TypeScript, with TanStack Query for server data, Zustand for client state, and Tailwind with Radix-based components for the UI.
+</Section>
+
+<Section title="Money UI: wallets and savings">
+  Most of my work on the rebuild is in the money features, where clarity and correctness matter most:
+
+  - **Multi-wallet support:** adding money, transfers, withdrawals, balances and wallet visibility, plus the shared community wallet.
+  - **Group savings:** both ROSCA (members take turns receiving the pot) and ASCA (members save into a fund together), including accurate details of who receives each cycle.
+  - **RaiseMe fundraising:** creating a wallet as part of setting up a fundraiser, and linking savings to it.
+  - **Transactions:** correct calculations, clearly formatted debits and accurate status labels.
+  - **KYC:** the identity verification flow members complete before using money features.
+</Section>
+
+<Section title="Communities">
+  I built and fixed core community flows: invite codes, joining a community (including the edge case of joining one you're already in), member loading in savings groups, and the engagement score. I also made notifications more efficient and built the delete-account page.
+</Section>
