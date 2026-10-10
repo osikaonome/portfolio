@@ -79,7 +79,7 @@ export function ProjectCard({ project, priority = false, headingLevel = 3 }: { p
             </p>
           )}
           {project.live && (
-            <a href={project.live} className="tap relative z-10 inline-flex items-center text-accent underline">
+            <a href={project.live} target="_blank" rel="noopener noreferrer" className="tap relative z-10 inline-flex items-center text-accent underline">
               Visit site ↗<span className="sr-only">: {project.title}</span>
             </a>
           )}

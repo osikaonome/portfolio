@@ -126,7 +126,7 @@ export default async function CaseStudy({ params }: PageProps<"/work/[slug]">) {
                     <ul>
                       {Object.entries(p.links).map(([k, href]) => (
                         <li key={k}>
-                          <a href={href} className="tap inline-flex items-center text-accent capitalize underline">
+                          <a href={href} target="_blank" rel="noopener noreferrer" className="tap inline-flex items-center text-accent capitalize underline">
                             {k === "live" ? "Live site" : k} ↗
                           </a>
                         </li>
